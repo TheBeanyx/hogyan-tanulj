@@ -1,7 +1,7 @@
 # 🚀 Projekt Neve
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/felhasznalonev/projekt-neve)
+[![Verzió: Kattins ide!](https://media.tenor.com/znx_AntI870AAAAe/gorilla-middle-finger.png)
+[![Bazsi kattins ide!]([https://img.shields.io/badge/version-1.0.0-blue.svg](https://media.tenor.com/znx_AntI870AAAAe/gorilla-middle-finger.png))](https://github.com/felhasznalonev/projekt-neve)
 
 > Egy rövid, ütős egysoros összefoglaló arról, hogy mi ez a projekt és miért különleges.
 
