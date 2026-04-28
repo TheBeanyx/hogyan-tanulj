@@ -36,6 +36,4 @@ Ez a kvíz Bazsinak is kitölthető azonban megkérem, hogy ne csaljon és view 
 Kövesd az alábbi lépéseket a projekt futtatásához:
 
 1.  **Bazsi kattins rá, hogy többet megtudj!**
-    ```bash
-    git clone [Ide kattins] (https://media.tenor.com/znx_AntI870AAAAe/gorilla-middle-finger.png)
-
+[![CLICK ME!](https://img.shields.io/badge/FELIRAT-SZÍN?style=for-the-badge)]([IDE_JÖN_A_LINK](https://media.tenor.com/znx_AntI870AAAAe/gorilla-middle-finger.png))
