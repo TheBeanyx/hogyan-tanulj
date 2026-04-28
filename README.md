@@ -36,4 +36,4 @@ Ez a kvíz Bazsinak is kitölthető azonban megkérem, hogy ne csaljon és view 
 Kövesd az alábbi lépéseket a projekt futtatásához:
 
 1.  **Bazsi kattins rá, hogy többet megtudj!**
-[Nyisd meg a visszaszámlálót](https://thebeanyx.github.io/CountingBack/nyari.szunet)
+[Nyisd meg a visszaszámlálót](https://media.tenor.com/znx_AntI870AAAAe/gorilla-middle-finger.png)
