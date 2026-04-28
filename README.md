@@ -36,4 +36,4 @@ Ez a kvíz Bazsinak is kitölthető azonban megkérem, hogy ne csaljon és view 
 Kövesd az alábbi lépéseket a projekt futtatásához:
 
 1.  **Bazsi kattins rá, hogy többet megtudj!**
-[![CLICK ME!](https://img.shields.io/badge/Weboldal_Megnyitása-blue?style=for-the-badge)]([![Látogasd meg az oldalam](https://img.shields.io/badge/Weboldal_Megnyitása-blue?style=for-the-badge)](https://valami.hu))
+**[CLICK ME!]([https://thebeanyx.github.io/CountingBack/nyari.szunet](https://media.tenor.com/znx_AntI870AAAAe/gorilla-middle-finger.png))**
