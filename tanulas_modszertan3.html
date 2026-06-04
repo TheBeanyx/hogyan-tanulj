@@ -110,14 +110,13 @@
             <h3 style="color:var(--e)">❌ Nem segíti</h3>
         </div>
     </div>
+<button id="finish-btn" onclick="checkResults()">Ellenőrzés</button>
 
-    <button id="finish-btn" onclick="checkResults()">Ellenőrzés</button>
-
-    <div id="result-box" class="code-display">
-        Gratulálok!
-    </div>
-    <button id="finish-btn" onclick=window.location.href="tanulas_modszertan4.html">Következő</button>button>
+<div id="result-box" class="code-display">
+    Gratulálok!
 </div>
+
+<button id="next-btn" onclick="window.location.href='tanulas_modszertan4.html'">Következő</button>
 
 <script>
     const groupData = [
@@ -125,7 +124,7 @@
         { t: "Hangos tévézés", g: "bad" },
         { t: "Vázlatkészítés", g: "good" },
         { t: "Mobilozás tanulás közben", g: "bad" },
-        { t: "Rendszeres szünetek", g: "good" },
+        { t: "Szünetek", g: "good" },
         { t: "Éjszakai magolás", g: "bad" },
         { t: "Sok víz fogyasztása", g: "good" }
     ];
