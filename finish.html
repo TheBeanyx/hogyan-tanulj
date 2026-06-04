@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gratulálunk! - Modul Teljesítve</title>
+    <style>
+        :root { 
+            --p: #3498db; 
+            --s: #2ecc71; 
+            --dark: #0f172a;
+        }
+        
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            background: var(--dark); 
+            color: white;
+            margin: 0; 
+            padding: 20px; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .container { 
+            background: white; 
+            color: #333;
+            width: 100%; 
+            max-width: 600px; 
+            padding: 40px 30px; 
+            border-radius: 20px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
+            text-align: center; 
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            animation: popIn 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 30px;
+        }
+
+        .summary-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .summary-box h3 {
+            margin-top: 0;
+            color: var(--p);
+        }
+
+        .summary-box ul {
+            padding-left: 20px;
+            margin-bottom: 0;
+        }
+
+        .summary-box li {
+            margin-bottom: 8px;
+            color: #475569;
+        }
+        
+        button { 
+            background: var(--p); 
+            color: white; 
+            border: none; 
+            padding: 15px 30px; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-size: 18px; 
+            width: 100%; 
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        button:hover {
+            background: #2980b9;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        /* Animációk a látványosabb megjelenésért */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0); }
+            to { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="icon">🎉🏆🎉</div>
+    <h1>Sikeresen teljesítetted!</h1>
+    <p>Gratulálunk! Végigértél a tanulásmódszertani modul összes fázisán. Most már birtokodban vannak azok az alapvető technikák és ismeretek, amelyekkel sokkal hatékonyabbá teheted a felkészülést.</p>
+    
+    <div class="summary-box">
+        <h3>Mit tanultál a modul során?</h3>
+        <ul>
+            <li>Megismerted a fókuszált figyelem fontosságát.</li>
+            <li>Rendszerezted a hatékony időbeosztás lépéseit.</li>
+            <li>Kiszűrted a tanulást gátló tényezőket a segítő szokások közül.</li>
+        </ul>
+    </div>
+
+    <button onclick="window.location.href='tanulas_modszertan1.html'">Újra az elejére</button>
+</div>
+
+</body>
+</html>
