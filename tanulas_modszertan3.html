@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pro Tanulási Párosító</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #4f46e5;
+            --success: #22c55e;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background-color: var(--bg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            color: #1e293b;
+        }
+
+        /* Haladási csík */
+        .progress-container {
+            width: 100%;
+            max-width: 600px;
+            background: #e2e8f0;
+            border-radius: 20px;
+            height: 12px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        #progress-bar {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #6366f1, #22c55e);
+            transition: width 0.5s ease-in-out;
+        }
+
+        /* Felső rész: Húzópakli */
+        .deck-area {
+            perspective: 1000px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        #draw-card {
+            width: 180px;
+            height: 120px;
+            background: var(--primary);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 800;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 4px solid white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        #draw-card.active {
+            background: white;
+            color: var(--primary);
+            transform: rotateX(10deg);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        #draw-card:hover { transform: translateY(-5px); }
+
+        /* Alsó rész: Kiterített kártyák */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .table-card {
+            background: var(--card-bg);
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 15px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .table-card:hover {
+            transform: scale(1.05);
+            border-color: var(--primary);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+
+        .matched {
+            opacity: 0;
+            transform: scale(0.5);
+            pointer-events: none;
+            transition: all 0.4s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .info-text { margin-bottom: 10px; font-weight: 600; color: #64748b; }
+    </style>
+</head>
+<body>
+
+    <h1>Tanulási Stratégiák</h1>
+    
+    <div class="progress-container">
+        <div id="progress-bar"></div>
+    </div>
+
+    <div class="deck-area">
+        <div class="info-text">Húzz egy fogalmat:</div>
+        <div id="draw-card">PAKLI (Kattints!)</div>
+    </div>
+
+    <div class="info-text">Keresd meg a párját:</div>
+    <div class="grid" id="table-grid"></div>
+
+    <script>
+        const pairs = [
+            { t: "Pomodoro", d: "25 perces technika" },
+            { t: "Rend", d: "A lelke mindenek" },
+            { t: "Ismétlés", d: "A tudás anyja" },
+            { t: "Aktív felidézés", d: "Teszteld magad könyv nélkül" },
+            { t: "Vizuális jegyzet", d: "Ábrák és nyilak használata" },
+            { t: "Mély munka", d: "Zavaró tényezők teljes kizárása" },
+            { t: "Világosság", d: "Az egyik alappillér" },
+            { t: "Alvás", d: "Segít rögzíteni az emlékeket" },
+            { t: "Hidratálás", d: "Az agynak vízre van szüksége" },
+            { t: "Célkitűzés", d: "Konkrét, mérhető tervek" }
+        ];
+
+        let deck = [...pairs].sort(() => Math.random() - 0.5);
+        let currentCard = null;
+        let totalPairs = pairs.length;
+
+        const drawElement = document.getElementById('draw-card');
+        const gridElement = document.getElementById('table-grid');
+        const progressBar = document.getElementById('progress-bar');
+
+        function updateProgress() {
+            const percent = ((totalPairs - deck.length) / totalPairs) * 100;
+            progressBar.style.width = percent + "%";
+        }
+
+        function initTable() {
+            const definitions = [...pairs].sort(() => Math.random() - 0.5);
+            definitions.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'table-card';
+                card.innerText = item.d;
+                card.onclick = () => checkMatch(item.t, card);
+                gridElement.appendChild(card);
+            });
+        }
+
+        drawElement.onclick = () => {
+            if (deck.length > 0 && !currentCard) {
+                currentCard = deck[0];
+                drawElement.innerText = currentCard.t;
+                drawElement.classList.add('active');
+            }
+        };
+
+        function checkMatch(term, element) {
+            if (!currentCard) return;
+
+            if (term === currentCard.t) {
+                element.classList.add('matched');
+                deck.shift();
+                currentCard = null;
+                updateProgress();
+
+                if (deck.length > 0) {
+                    drawElement.innerText = "KÖVETKEZŐ";
+                    drawElement.classList.remove('active');
+                } else {
+                    drawElement.innerText = "GRATULÁLUNK! 🎉 A KÓD: 12";
+                    setTimeout(() => {
+                        window.location.href = "kviz.p=37f3vnr.html";
+                    }, 1500);
+                }
+            } else {
+                element.style.backgroundColor = "#fee2e2";
+                setTimeout(() => element.style.backgroundColor = "white", 400);
+            }
+        }
+
+        initTable();
+    </script>
+</body>
+</html>

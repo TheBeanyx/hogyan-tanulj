@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>1. Állomás - A Rendrakás Mestere</title>
+    <style>
+        body {
+            background: #0f172a;
+            color: #f1c40f;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Brutál faasztal */
+        #desk {
+            position: relative;
+            width: 1100px;
+            height: 700px;
+            background: #2b1d1a;
+            background-image: url('https://www.transparenttextures.com/patterns/dark-wood.png');
+            border: 20px solid #1a100e;
+            box-shadow: 0 50px 100px rgba(0,0,0,0.9), inset 0 0 150px rgba(0,0,0,0.7);
+            border-radius: 15px;
+        }
+
+        /* Tárgyak stílusa */
+        .item {
+            position: absolute;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            width: 100px;
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
+        }
+        .item:hover { transform: scale(1.2) rotate(10deg); filter: brightness(1.3) drop-shadow(0 0 10px #f1c40f); }
+
+        /* Kvíz Overlay */
+        #quiz-overlay {
+            display: none;
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.95);
+            z-index: 100;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s;
+        }
+
+        #question-box {
+            background: #fff;
+            color: #1e293b;
+            padding: 40px;
+            border-radius: 20px;
+            width: 70%;
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .answers-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            width: 75%;
+        }
+
+        .ans-btn {
+            padding: 25px;
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 1.3rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+        .red { background: #e21b3c; } .blue { background: #1368ce; }
+        .yellow { background: #d89e00; } .green { background: #26890c; }
+        .ans-btn:hover { transform: translateY(-5px); filter: brightness(1.1); }
+
+        /* Egyedi visszajelző üzenet alert helyett */
+        #feedback-msg {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            display: none;
+            z-index: 200;
+            animation: slideUp 0.4s;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { bottom: -50px; } to { bottom: 40px; } }
+
+        #stats {
+            position: absolute;
+            top: -60px;
+            left: 0;
+            color: #f1c40f;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="desk">
+        <div id="stats">Rossz tárgyak eltávolítva: <span id="count">0</span> / 7</div>
+
+        <img src="phone.png" class="item" style="top:50px; left:80px;" onclick="openQuiz('phone')" id="phone" title="Okostelefon">
+        
+        <img src="pizza.png" class="item" style="top:400px; left:120px;" onclick="openQuiz('pizza')" id="pizza" title="Étel">
+        
+        <img src="keyboard.png" class="item" style="top:150px; left:850px;" onclick="openQuiz('game')" id="game" title="Videojáték">
+       
+        <img src="lampa.png" class="item" style="top:500px; left:700px;" onclick="openQuiz('sotet')" id="sotet" title="Sötétség">
+        
+        <img src="zene.png" class="item" style="top:250px; left:400px;" onclick="openQuiz('zene')" id="zene" title="Hangos rock zene">
+        
+        <img src="headphone.png" class="item" style="top:40px; left:500px;" onclick="openQuiz('headphone')" id="headphone" title="Zajos fejhallgató">
+        
+        <img src="comic.png" class="item" style="top:450px; left:880px;" onclick="openQuiz('comic')" id="comic" title="Képregények">
+
+        <img src="vilagos.png" class="item" style="top:250px; left:650px; filter: sepia(0.5) brightness(0.8);" title="Világos" onclick="showFeedback('Ez a lámpa segít látni a lényeget!', false)">
+        
+        <img src="víz.png" class="item" style="top:180px; left:250px; filter: sepia(0.5) brightness(0.8);" title="Víz" onclick="showFeedback('A víz hidratálja az agyad!', false)">
+        
+        <img src="jegyzetek.png" class="item" style="top:320px; left:150px; filter: sepia(0.5) brightness(0.8);" title="Jegyzetek" onclick="showFeedback('A jegyzetekből tanulsz', false)">
+     <div id="quiz-overlay">
+            <div id="question-box">Kérdés?</div>
+            <div class="answers-grid">
+                <button class="ans-btn red" id="btn0" onclick="checkAnswer(0)"></button>
+                <button class="ans-btn blue" id="btn1" onclick="checkAnswer(1)"></button>
+                <button class="ans-btn yellow" id="btn2" onclick="checkAnswer(2)"></button>
+                <button class="ans-btn green" id="btn3" onclick="checkAnswer(3)"></button>
+            </div>
+        </div>
+    </div>
+
+    <div id="feedback-msg"></div>
+
+    <script>
+        const questions = {
+            phone: { q: "Kellenek-e szünetek tanulás közben?", a: ["Nagyon ritkán, pl óránként", "Nem mert az csak lassít", "Igen de nem túl gyakran", "Persze, kb. 10 percenként"], c: 2 },
+            pizza: { q: "Mehet-e zene tanulás közben?", a: ["Igen, de méghozzá jó hangosan", "Igen,de csak tanulást seígtő és halkan", "Igen, bármilyen", "Nem egyátalán"], c: 1 },
+            game: { q: "Hogy szól a közmondás: ... lelke mindenek", a: ["Csend", "Hely", "Rend", "Egyiksem illik bele!"], c: 2 },
+            sotet: { q: "Segít ha mindig ugyan ott tanulsz?", a: ["Nem feltétlenül, de ajánlott", "Nem, csak tévhit", "Igen, ez egy nagy segítség", "Nem"], c: 2 },
+            zene: { q: "Melyik a legjobb fény a tanuláshoz?", a: ["Csak a kék fény", "Mindegy", "Mesterséges", "Természetes"], c: 3 },
+            headphone: { q: "Segítenek az elektronikus eszközök tanuláskor?", a: ["Csak néha", "Nem sosem, mert elvonja a figyelmet", "Igen, mindig kell", "Fölösleges"], c: 0 },
+            comic: { q: "Mi az a 3 fontos szabály ami mindig fontos tanuláskor? ", a: ["Világosság,rend,helyszín", "Rend,étel,világosság", "Laptop,rend,helyszín", "Rend,csend,laptop"], c: 0 }
+        };
+
+        let currentKey = '';
+        let solved = 0;
+
+        function openQuiz(key) {
+            currentKey = key;
+            const data = questions[key];
+            document.getElementById('question-box').innerText = data.q;
+            data.a.forEach((txt, i) => document.getElementById('btn'+i).innerText = txt);
+            document.getElementById('quiz-overlay').style.display = 'flex';
+        }
+
+        function checkAnswer(idx) {
+            if (idx === questions[currentKey].c) {
+                document.getElementById(currentKey).style.display = 'none';
+                document.getElementById('quiz-overlay').style.display = 'none';
+                solved++;
+                document.getElementById('count').innerText = solved;
+                showFeedback("Így kell ezt csinálni! Egy zavaró tényező kilőve.", true);
+                if(solved === 7) finishGame();
+            } else {
+                showFeedback("Helytelen! A zavaró elem erősebb nálad...", false);
+                document.getElementById('quiz-overlay').style.display = 'none';
+            }
+        }
+
+        function showFeedback(text, isGood) {
+            const f = document.getElementById('feedback-msg');
+            f.innerText = text;
+            f.style.display = 'block';
+            f.style.background = isGood ? '#26890c' : '#e21b3c';
+            f.style.color = 'white';
+            setTimeout(() => { f.style.display = 'none'; }, 2500);
+        }
+
+        function finishGame() {
+            setTimeout(() => {
+                document.body.innerHTML = `
+                <div style="text-align:center; background:#0f172a; padding:50px; border:5px solid #f1c40f;">
+                    <h1 style="color:#f1c40f; font-size:3rem;">MEGCSINÁLTAD!</h1>
+                    <p style="color:white; font-size:1.5rem;">A helyszín tökéletes! :)</p>
+                    <p style="color:#f1c40f; font-size:2rem;">A kód első kettő számjegye: <b>23</b></p>
+                    <button onclick="window.location.href='kvíz.p=3fj32d.html'" style="padding:20px 40px; cursor:pointer; background:#f1c40f; font-weight:bold; border:none; border-radius:10px;">VISSZA A TÉRKÉPHEZ</button>
+                </div>`;
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
