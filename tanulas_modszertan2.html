@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>VÉGSŐ PRÓBA</title>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --panel: #1e293b;
+            --metal: linear-gradient(145deg, #334155, #0f172a);
+            --accent: #fbbf24;
+            --success: #22c55e;
+            --dial-bg: linear-gradient(to bottom, #111 0%, #444 50%, #111 100%);
+        }
+
+        body {
+            background-color: var(--bg);
+            color: #f1f5f9;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .main-wrapper {
+            width: 100%;
+            max-width: 900px;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        /* Állítások panel */
+        .rules-card {
+            background: var(--panel);
+            padding: 30px;
+            border-radius: 24px;
+            border: 1px solid #334155;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        h1 { color: var(--accent); margin-top: 0; font-size: 1.8rem; text-transform: uppercase; letter-spacing: 2px; }
+        
+        .instruction { font-size: 0.9rem; color: #94a3b8; margin-bottom: 20px; border-left: 3px solid var(--accent); padding-left: 15px; }
+
+        .clues-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            max-height: 500px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .clue-item {
+            background: rgba(15, 23, 42, 0.5);
+            padding: 12px 15px;
+            border-radius: 12px;
+            display: flex;
+            gap: 15px;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+        .clue-item:hover { background: rgba(251, 191, 36, 0.05); }
+        .clue-item b { color: var(--accent); min-width: 25px; }
+
+        /* Modern Lakat Dizájn */
+        .lock-container {
+            background: #334155;
+            padding: 40px 20px;
+            border-radius: 40px;
+            background: var(--metal);
+            border: 4px solid #475569;
+            box-shadow: 
+                inset 0 0 20px rgba(0,0,0,0.8),
+                0 30px 60px rgba(0,0,0,0.6);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: sticky;
+            top: 20px;
+        }
+
+        .dial-area {
+            display: flex;
+            gap: 10px;
+            background: #000;
+            padding: 25px 15px;
+            border-radius: 20px;
+            border: 2px solid #1e293b;
+            box-shadow: inset 0 0 15px rgba(0,0,0,1);
+            margin-bottom: 30px;
+        }
+
+        .dial-col { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+
+        .btn-step {
+            background: #1e293b;
+            border: 1px solid #475569;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+        .btn-step:hover { background: var(--accent); color: #000; }
+
+        .digit {
+            width: 50px;
+            height: 80px;
+            background: var(--dial-bg);
+            border-radius: 6px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 36px;
+            font-weight: 800;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255,255,255,0.5);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            position: relative;
+        }
+
+        /* A lakat "üvege" */
+        .digit::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(255,255,255,0.1), transparent 50%, rgba(0,0,0,0.3));
+            pointer-events: none;
+        }
+
+        .unlock-trigger {
+            width: 100%;
+            padding: 20px;
+            background: transparent;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            border-radius: 100px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            cursor: pointer;
+            transition: 0.4s;
+        }
+
+        .unlock-trigger:hover {
+            background: var(--accent);
+            color: #000;
+            box-shadow: 0 0 30px rgba(251, 191, 36, 0.4);
+        }
+
+        #msg { margin-top: 20px; font-weight: bold; min-height: 20px; text-align: center; }
+
+        @media (max-width: 850px) {
+            .main-wrapper { grid-template-columns: 1fr; }
+            .lock-container { position: static; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-wrapper">
+    <div class="rules-card">
+        <h1>A VÉGSŐ KIHÍVÁS:</h1>
+        <div class="instruction">
+            Válaszd ki az igaz állításokat majd sorrendbe írd be a lakatba.<br>
+           Ha egy szám 2 jegyű a lakaton 2 helyet foglaljon el!
+        </div>
+
+        <div class="clues-grid">
+<div class="clue-item"><b>11.</b> Ha egy napig nem eszel, az agyad több energiát fordít a gondolkodásra.</div>
+<div class="clue-item"><b>3.</b> A Pomodoro-technika lényege a rövid fókuszált blokkok és szünetek váltakozása.</div>
+<div class="clue-item"><b>12.</b> A sötétben való tanulás kíméli a szemet és növeli a koncentrációt.</div>
+<div class="clue-item"><b>0.</b> A rendszeres vízfogyasztás javítja a kognitív funkciókat.</div>
+<div class="clue-item"><b>10.</b> Minél kevesebbet alszol, az agyad annál gyorsabban pörög tanuláskor.</div>
+<div class="clue-item"><b>5.</b> A tananyag hangos felolvasása segíthet az emlékezeti rögzítésben.</div>
+<div class="clue-item"><b>9.</b> A mobiltelefon kék fénye segíti a mélyalvást a vizsga előtti éjszakán.</div>
+<div class="clue-item"><b>2.</b> Az ismétlés (Spaced Repetition) az egyik leghatékonyabb módja a hosszú távú tanulásnak.</div>
+<div class="clue-item"><b>6.</b> Ha másnak elmagyarázod a tananyagot, te magad is jobban megérted.</div>
+<div class="clue-item"><b>8.</b> Csak is a parkokban friss levegőn lehet tanulni</div>
+<div class="clue-item"><b>1.</b> Tanulás közben óránként legalább egyszer érdemes átmozgatni a testedet.</div>
+<div class="clue-item"><b>4.</b> A cukros energiaitalok hosszú távon stabilan tartják a fókuszt.</div>
+
+        </div>
+    </div>
+
+    <div class="lock-container">
+        <div class="dial-area">
+            <script>
+                for(let i=0; i<6; i++) {
+                    document.write(`
+                        <div class="dial-col">
+                            <button class="btn-step" onclick="spin(${i}, 1)">+</button>
+                            <div class="digit" id="d-${i}">0</div>
+                            <button class="btn-step" onclick="spin(${i}, -1)">-</button>
+                        </div>
+                    `);
+                }
+            </script>
+        </div>
+
+        <button class="unlock-trigger" onclick="verify()">Kinyitás</button>
+        <div id="msg"></div>
+    </div>
+</div>
+
+<script>
+    
+    const SOLUTION = [3,0,5,2,6,1]; 
+    let current = [0, 0, 0, 0, 0, 0];
+
+    function spin(idx, dir) {
+        current[idx] = (current[idx] + dir + 10) % 10;
+        document.getElementById(`d-${idx}`).innerText = current[idx];
+        document.getElementById('msg').innerText = "";
+    }
+
+    function verify() {
+        const isOk = current.every((v, i) => v === SOLUTION[i]);
+        const m = document.getElementById('msg');
+        
+        if(isOk) {
+            m.innerText = "A LAKAT KINYILT";
+            m.style.color = "var(--success)";
+            setTimeout(() => {
+                window.location.href = "http://kahoot.it/?pin=5650970";
+            }, 1000);
+        } else {
+            m.innerText = "A ZÁR NEM NYÍLIK. ELLENŐRIZD AZ ÁLLÍTÁSOKAT!";
+            m.style.color = "#ef4444";
+            // Rezgő effekt a lakatnak
+            const lock = document.querySelector('.lock-container');
+            lock.style.animation = "shake 0.3s";
+            setTimeout(() => lock.style.animation = "", 300);
+        }
+    }
+</script>
+
+<style>
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-10px); }
+        75% { transform: translateX(10px); }
+    }
+</style>
+
+</body>
+</html>
